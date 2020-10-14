@@ -6,7 +6,7 @@ function acl_concrete_dominated(concrete, effective) {
   const concrDivide = concrete.split("/");
   const effectSeparate = effective.split(":");
   const outputText = document.getElementById('output_text');
-  let returnAcl = false;
+  let result = false;
 
   for (let item of effectSeparate) {
     const effectDivide = item.split("/");
@@ -18,13 +18,13 @@ function acl_concrete_dominated(concrete, effective) {
       const intersectAccessControl = concrAccessControl
                                      .filter(el => effectAccessControl.includes(el));
       if (concrAccessControl.join("") === intersectAccessControl.join("")) {
-        returnAcl = true;
+        result = true;
       }
     }
   }
   // ouput result
-  outputText.innerHTML += `acl_concrete_dominated("${concrete}", "${effective}")  ->  ${aclReturn}.\n`;
-  return returnAcl;
+  outputText.innerHTML += `acl_concrete_dominated("${concrete}", "${effective}")  ->  ${result}.\n`;
+  return result;
 }
 
 function handlerResultButton() {
