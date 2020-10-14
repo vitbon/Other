@@ -6,7 +6,7 @@ function acl_concrete_dominated(concrete, effective) {
   const concrDivide = concrete.split("/");
   const effectSeparate = effective.split(":");
   const outputText = document.getElementById('output_text');
-  let aclReturn = false;
+  let returnAcl = false;
 
   for (let item of effectSeparate) {
     const effectDivide = item.split("/");
@@ -18,27 +18,29 @@ function acl_concrete_dominated(concrete, effective) {
       const intersectAccessControl = concrAccessControl
                                      .filter(el => effectAccessControl.includes(el));
       if (concrAccessControl.join("") === intersectAccessControl.join("")) {
-        aclReturn = true;
+        returnAcl = true;
       }
     }
   }
   // ouput result
   outputText.innerHTML += `acl_concrete_dominated("${concrete}", "${effective}")  ->  ${aclReturn}.\n`;
-  return aclReturn;
+  return returnAcl;
 }
 
 function handlerResultButton() {
-  const concrete = concreteInput.value;
-  const effective = effectiveInput.value;
+  const concrete = concreteInput.value.trim();
+  const effective = effectiveInput.value.trim();
   if (concrete && effective) acl_concrete_dominated(concrete, effective);
 }
 
+document.getElementById('output_text').innerHTML = "Samples:\n";
 acl_concrete_dominated("G/Time", "G/Time:GDP/Users");
 acl_concrete_dominated("D/Users", "G/Time:GDP/Users");
 acl_concrete_dominated("PD/Users", "G/Time:GDP/Users");
 acl_concrete_dominated("POD/Users", "GDUPHO/Users:G/Time");
 acl_concrete_dominated("P/Time", "G/Time:GDP/Users");
 acl_concrete_dominated("H/Users", "G/Time:GDP/Users");
+document.getElementById('output_text').innerHTML += "\nYour results:\n";
 resultButton.addEventListener("click", () => handlerResultButton());
 
 
